@@ -55,27 +55,12 @@ export const AppProvider = ({ children }) => {
     }));
   });
   const [currentUser, setCurrentUser] = useState(() => {
-    // Clear any previous persistent login from localStorage so app always opens to login page
+    // Clear any previous persistent login tokens so opening the link ALWAYS opens the Login Page
     try {
       localStorage.removeItem(STORAGE_KEYS.USER);
+      sessionStorage.removeItem(STORAGE_KEYS.USER);
     } catch (e) {
       // ignore
-    }
-
-    // Check current active browser session only
-    try {
-      const sessionData = sessionStorage.getItem(STORAGE_KEYS.USER);
-      if (sessionData) {
-        const parsed = JSON.parse(sessionData);
-        if (parsed && parsed.isLoggedIn === true) {
-          return {
-            ...parsed,
-            name: parsed.name === 'Administrator' || parsed.name === 'Admin' ? 'Admin' : parsed.name
-          };
-        }
-      }
-    } catch (err) {
-      console.warn('Error reading session user:', err);
     }
 
     return {
@@ -140,13 +125,6 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem(STORAGE_KEYS.MOVEMENTS, JSON.stringify(stockMovements));
   }, [stockMovements]);
 
-  useEffect(() => {
-    if (currentUser && currentUser.isLoggedIn) {
-      sessionStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(currentUser));
-    } else {
-      sessionStorage.removeItem(STORAGE_KEYS.USER);
-    }
-  }, [currentUser]);
 
   // Product Operations
   const addProduct = (newProd) => {
@@ -429,7 +407,6 @@ export const AppProvider = ({ children }) => {
       isLoggedIn: true
     };
     setCurrentUser(updatedUser);
-    sessionStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updatedUser));
     showToast(`Welcome back, ${userData.name}! Logged in as ${userData.role}`);
   };
 
@@ -438,8 +415,12 @@ export const AppProvider = ({ children }) => {
       ...INITIAL_USER,
       isLoggedIn: false
     });
-    sessionStorage.removeItem(STORAGE_KEYS.USER);
-    localStorage.removeItem(STORAGE_KEYS.USER);
+    try {
+      localStorage.removeItem(STORAGE_KEYS.USER);
+      sessionStorage.removeItem(STORAGE_KEYS.USER);
+    } catch (e) {
+      // ignore
+    }
     showToast('Logged out. Please sign in to continue.', 'info');
   };
 
