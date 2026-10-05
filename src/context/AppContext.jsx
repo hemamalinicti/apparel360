@@ -55,10 +55,32 @@ export const AppProvider = ({ children }) => {
     }));
   });
   const [currentUser, setCurrentUser] = useState(() => {
-    const raw = getStoredData(STORAGE_KEYS.USER, INITIAL_USER);
+    // Clear any previous persistent login from localStorage so app always opens to login page
+    try {
+      localStorage.removeItem(STORAGE_KEYS.USER);
+    } catch (e) {
+      // ignore
+    }
+
+    // Check current active browser session only
+    try {
+      const sessionData = sessionStorage.getItem(STORAGE_KEYS.USER);
+      if (sessionData) {
+        const parsed = JSON.parse(sessionData);
+        if (parsed && parsed.isLoggedIn === true) {
+          return {
+            ...parsed,
+            name: parsed.name === 'Administrator' || parsed.name === 'Admin' ? 'Admin' : parsed.name
+          };
+        }
+      }
+    } catch (err) {
+      console.warn('Error reading session user:', err);
+    }
+
     return {
-      ...raw,
-      name: raw.name === 'Administrator' || raw.name === 'Admin' ? 'Admin' : raw.name
+      ...INITIAL_USER,
+      isLoggedIn: false
     };
   });
 
@@ -119,7 +141,11 @@ export const AppProvider = ({ children }) => {
   }, [stockMovements]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(currentUser));
+    if (currentUser && currentUser.isLoggedIn) {
+      sessionStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(currentUser));
+    } else {
+      sessionStorage.removeItem(STORAGE_KEYS.USER);
+    }
   }, [currentUser]);
 
   // Product Operations
@@ -403,14 +429,17 @@ export const AppProvider = ({ children }) => {
       isLoggedIn: true
     };
     setCurrentUser(updatedUser);
+    sessionStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updatedUser));
     showToast(`Welcome back, ${userData.name}! Logged in as ${userData.role}`);
   };
 
   const logout = () => {
-    setCurrentUser((prev) => ({
-      ...prev,
+    setCurrentUser({
+      ...INITIAL_USER,
       isLoggedIn: false
-    }));
+    });
+    sessionStorage.removeItem(STORAGE_KEYS.USER);
+    localStorage.removeItem(STORAGE_KEYS.USER);
     showToast('Logged out. Please sign in to continue.', 'info');
   };
 
@@ -424,7 +453,6 @@ export const AppProvider = ({ children }) => {
     setPurchases(INITIAL_PURCHASES);
     setSales(INITIAL_SALES);
     setStockMovements(INITIAL_STOCK_MOVEMENTS);
-    setCurrentUser(INITIAL_USER);
     showToast('Database reset to default demo dataset!', 'success');
   };
 
@@ -492,7 +520,7 @@ export const AppProvider = ({ children }) => {
         sales,
         stockMovements,
         currentUser,
-        isAuthenticated: Boolean(currentUser && currentUser.isLoggedIn !== false),
+        isAuthenticated: Boolean(currentUser && currentUser.isLoggedIn === true),
         activeTab,
         isMobileMenuOpen,
         globalSearch,

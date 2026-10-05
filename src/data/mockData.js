@@ -452,5 +452,5 @@ export const INITIAL_USER = {
   code: 'ADM-001',
   role: 'Admin', // 'Admin' or 'Staff'
   company: 'Apparel360',
-  isLoggedIn: true
+  isLoggedIn: false
 };
