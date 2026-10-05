@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #F4EBD9;
+    color: #000000;
+  }
+}
+
+/* High-Contrast Text Selection Across the Entire Website */
+::selection {
+  background-color: #CB4E14 !important;
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+::-moz-selection {
+  background-color: #CB4E14 !important;
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+input::selection,
+textarea::selection {
+  background-color: #CB4E14 !important;
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+/* Navigation Bar - Chocolate Brown with White Text */
+.app-navbar {
+  background-color: #2A170C !important;
+  border-bottom: 1px solid #3A2213 !important;
+  color: #FFFFFF !important;
+}
+
+/* Table header solid background to prevent transparent bleed-through when scrolling */
+thead th {
+  background-color: #F4EBD9;
+}
+
+/* Main Menu Sidebar - Deep Chocolate Brown with White Text */
+.app-sidebar {
+  background-color: #1B0E06 !important;
+  border-right: 1px solid #3A2213 !important;
+  color: #FFFFFF !important;
+}
+
+/* Hide scrollbars across all modern browsers */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+  width: 0px;
+  height: 0px;
+  background: transparent;
+}
+
+/* Print styles for invoices */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-invoice, #printable-invoice * {
+    visibility: visible;
+  }
+  #printable-invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    background: white;
+    color: black;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
