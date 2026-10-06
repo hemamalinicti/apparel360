@@ -84,10 +84,10 @@ export const Sidebar = () => {
       >
         
         {/* Top Section */}
-        <div className="p-4 space-y-5">
+        <div className="p-3 pt-2">
           
           {/* Mobile Drawer Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-chocolate-800 md:hidden">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-chocolate-800 md:hidden">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-burnt-600 flex items-center justify-center text-white">
                 <Layers className="w-4 h-4 text-white" />
@@ -105,7 +105,7 @@ export const Sidebar = () => {
 
           {/* Navigation Section */}
           <div>
-            <div className="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-white/90">
+            <div className="px-3 mb-1.5 text-[11px] font-extrabold uppercase tracking-widest text-white/90">
               Main Menu
             </div>
             <nav className="space-y-1">
