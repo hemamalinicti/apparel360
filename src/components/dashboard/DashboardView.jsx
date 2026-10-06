@@ -6,7 +6,6 @@ import {
   AlertTriangle,
   TrendingUp,
   ShoppingCart,
-  PackagePlus,
   Plus,
   Sparkles,
   Layers,
@@ -66,15 +65,6 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
             >
               <ShoppingCart className="w-4 h-4 text-burnt-400" />
               <span>POS Billing</span>
-            </button>
-
-            <button
-              onClick={onOpenStockIn}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-xs sm:text-sm backdrop-blur-sm transition-all border border-white/30"
-              style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
-            >
-              <PackagePlus className="w-4 h-4 text-white" />
-              <span>Stock In / Purchase</span>
             </button>
 
             {currentUser.role === 'Admin' && (
