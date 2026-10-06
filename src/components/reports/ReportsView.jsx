@@ -272,49 +272,6 @@ export const ReportsView = () => {
             </div>
           </div>
 
-          {/* Itemized Valuation Table */}
-          <div className="bg-white rounded-2xl border border-cream-200/90 shadow-2xs overflow-hidden">
-            <div className="p-4 bg-cream-50 border-b border-cream-200 flex justify-between items-center">
-              <h3 className="text-sm font-bold text-chocolate-950">Itemized Inventory Valuation</h3>
-              <span className="text-xs text-chocolate-500">{products.length} Garments</span>
-            </div>
-            <div className="overflow-x-auto max-h-96 relative">
-              <table className="w-full min-w-[720px] text-left text-xs">
-                <thead
-                  className="border-b border-cream-300 text-chocolate-950 font-black uppercase tracking-wider text-[10px] sticky top-0 z-10 shadow-xs"
-                  style={{ backgroundColor: '#F4EBD9' }}
-                >
-                  <tr>
-                    <th className="py-3 px-4" style={{ backgroundColor: '#F4EBD9' }}>Garment</th>
-                    <th className="py-3 px-3" style={{ backgroundColor: '#F4EBD9' }}>SKU</th>
-                    <th className="py-3 px-3 text-center" style={{ backgroundColor: '#F4EBD9' }}>Stock</th>
-                    <th className="py-3 px-3 text-right" style={{ backgroundColor: '#F4EBD9' }}>Unit Cost</th>
-                    <th className="py-3 px-3 text-right" style={{ backgroundColor: '#F4EBD9' }}>Unit Retail</th>
-                    <th className="py-3 px-3 text-right" style={{ backgroundColor: '#F4EBD9' }}>Total Cost Asset</th>
-                    <th className="py-3 px-4 text-right" style={{ backgroundColor: '#F4EBD9' }}>Potential Sales</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-cream-100 bg-white">
-                  {products.map((p) => (
-                    <tr key={p.id} className="hover:bg-cream-50/70 transition-colors">
-                      <td className="py-2.5 px-4 font-bold text-chocolate-900">{p.name}</td>
-                      <td className="py-2.5 px-3 font-mono text-chocolate-500 font-semibold">{p.sku}</td>
-                      <td className="py-2.5 px-3 text-center font-bold text-chocolate-950">{p.stock} pcs</td>
-                      <td className="py-2.5 px-3 text-right text-chocolate-700 font-medium">₹{p.costPrice}</td>
-                      <td className="py-2.5 px-3 text-right text-burnt-600 font-bold">₹{p.sellingPrice}</td>
-                      <td className="py-2.5 px-3 text-right font-bold text-chocolate-950">
-                        ₹{(p.stock * p.costPrice).toLocaleString()}
-                      </td>
-                      <td className="py-2.5 px-4 text-right font-extrabold text-emerald-700">
-                        ₹{(p.stock * p.sellingPrice).toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
         </div>
       )}
 
