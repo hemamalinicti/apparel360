@@ -11,7 +11,6 @@ import {
   Trash2,
   PackagePlus,
   ShoppingCart,
-  Download,
   Shirt,
   Sparkles,
   SlidersHorizontal
@@ -78,32 +77,6 @@ export const ProductsView = ({
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage) || 1;
   const paginatedProducts = filteredProducts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
-  const exportToCSV = () => {
-    const headers = ['SKU', 'Name', 'Category', 'Size', 'Color', 'Cost Price', 'Selling Price', 'Stock Qty', 'Min Stock', 'Status', 'Supplier'];
-    const rows = filteredProducts.map((p) => [
-      `"${p.sku}"`,
-      `"${p.name}"`,
-      `"${p.category}"`,
-      `"${p.size}"`,
-      `"${p.color}"`,
-      p.costPrice,
-      p.sellingPrice,
-      p.stock,
-      p.minStock,
-      `"${p.status}"`,
-      `"${p.supplierName}"`
-    ]);
-
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `Garments_Catalog_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
   return (
     <div className="space-y-5 animate-in fade-in duration-300">
       
@@ -132,15 +105,6 @@ export const ProductsView = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          <button
-            onClick={exportToCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl shadow-xs transition-colors border hover:bg-white"
-            style={{ backgroundColor: '#FAF5EB', borderColor: '#CB4E14', color: '#000000' }}
-          >
-            <Download className="w-3.5 h-3.5 text-black" />
-            <span className="text-black">Export CSV</span>
-          </button>
-
           {isAdmin && (
             <button
               onClick={onOpenAddProduct}
