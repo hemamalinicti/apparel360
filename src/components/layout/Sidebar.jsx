@@ -173,7 +173,7 @@ export const Sidebar = () => {
 
         {/* Footer Info & Logout */}
         <div
-          className="p-4 border-t space-y-3"
+          className="p-3 border-t"
           style={{ backgroundColor: '#1B0E06', borderTopColor: '#3A2213' }}
         >
           <button
@@ -187,11 +187,6 @@ export const Sidebar = () => {
             <LogOut className="w-3.5 h-3.5 text-burnt-400" />
             <span>Log Out / Login Page</span>
           </button>
-
-          <div className="text-[11px] text-white/80 space-y-0.5 text-center">
-            <p className="font-semibold text-white">Apparel360 ERP</p>
-            <p className="text-[10px] text-white/60">v1.0 • Offline Ready</p>
-          </div>
         </div>
 
       </aside>
