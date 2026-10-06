@@ -1,39 +1,51 @@
 import React, { useState } from 'react';
 import {
-  ShieldCheck,
-  UserCheck,
   Lock,
   Mail,
   Sparkles,
   Layers,
   ArrowRight,
-  CheckCircle2
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const LoginPage = () => {
   const { login } = useApp();
 
-  const [selectedRole, setSelectedRole] = useState('Admin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
-
-  const handleSelectRole = (role) => {
-    setSelectedRole(role);
-  };
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const isAdm = selectedRole === 'Admin';
-    login({
-      name: isAdm ? 'Administrator' : 'Store Staff',
-      email: email.trim() || (isAdm ? 'admin@apparel360.com' : 'staff@apparel360.com'),
-      role: selectedRole,
-      code: isAdm ? 'ADM-001' : 'STAFF-102',
-      company: 'Apparel360',
-      isLoggedIn: true
-    });
+    setErrorMessage('');
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    if (cleanEmail === 'admin@gmail.com' && cleanPassword === 'admin123') {
+      login({
+        name: 'Administrator',
+        email: 'admin@gmail.com',
+        role: 'Admin',
+        code: 'ADM-001',
+        company: 'Apparel360',
+        isLoggedIn: true
+      });
+    } else if (cleanEmail === 'staff@gmail.com' && cleanPassword === 'staff123') {
+      login({
+        name: 'Store Staff',
+        email: 'staff@gmail.com',
+        role: 'Staff',
+        code: 'STAFF-102',
+        company: 'Apparel360',
+        isLoggedIn: true
+      });
+    } else {
+      setErrorMessage('Invalid email or password. Please check your login credentials.');
+    }
   };
 
   return (
@@ -131,82 +143,20 @@ export const LoginPage = () => {
                 Sign in to your Account
               </h3>
               <p className="text-xs text-chocolate-800 font-semibold">
-                Select your role profile and enter your credentials.
+                Enter your email address and password to sign in.
               </p>
             </div>
 
-            {/* Quick 1-Click Role Presets */}
-            <div className="mt-4 space-y-2">
-              <label className="text-[11px] font-black uppercase tracking-wider text-black block">
-                Select User Role Profile
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                
-                {/* Admin Option */}
-                <button
-                  type="button"
-                  onClick={() => handleSelectRole('Admin')}
-                  className={`p-3 rounded-2xl border-2 text-left transition-all relative cursor-pointer ${
-                    selectedRole === 'Admin'
-                      ? 'border-burnt-500 bg-burnt-50 ring-2 ring-burnt-500/30 shadow-sm'
-                      : 'border-cream-300 hover:border-cream-400 bg-white'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div
-                      className="w-8 h-8 rounded-xl flex items-center justify-center font-bold shadow-xs"
-                      style={{
-                        backgroundColor: selectedRole === 'Admin' ? '#E86526' : '#FFF0EA',
-                        color: selectedRole === 'Admin' ? '#FFFFFF' : '#CB4E14'
-                      }}
-                    >
-                      <ShieldCheck className="w-4 h-4" />
-                    </div>
-                    {selectedRole === 'Admin' && (
-                      <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#E86526' }} />
-                    )}
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-xs font-black text-black">Admin Account</div>
-                    <div className="text-[10px] text-chocolate-700 font-medium">Full Access (Catalog & Settings)</div>
-                  </div>
-                </button>
-
-                {/* Staff Option */}
-                <button
-                  type="button"
-                  onClick={() => handleSelectRole('Staff')}
-                  className={`p-3 rounded-2xl border-2 text-left transition-all relative cursor-pointer ${
-                    selectedRole === 'Staff'
-                      ? 'border-chocolate-700 bg-chocolate-50 ring-2 ring-chocolate-700/30 shadow-sm'
-                      : 'border-cream-300 hover:border-cream-400 bg-white'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div
-                      className="w-8 h-8 rounded-xl flex items-center justify-center font-bold shadow-xs"
-                      style={{
-                        backgroundColor: selectedRole === 'Staff' ? '#2A170C' : '#F2E8E1',
-                        color: selectedRole === 'Staff' ? '#FFFFFF' : '#2A170C'
-                      }}
-                    >
-                      <UserCheck className="w-4 h-4" />
-                    </div>
-                    {selectedRole === 'Staff' && (
-                      <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#2A170C' }} />
-                    )}
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-xs font-black text-black">Staff Account</div>
-                    <div className="text-[10px] text-chocolate-700 font-medium">POS Sales & Inward Stock</div>
-                  </div>
-                </button>
-
+            {/* Error Message Alert */}
+            {errorMessage && (
+              <div className="mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>{errorMessage}</span>
               </div>
-            </div>
+            )}
 
             {/* Login Form */}
-            <form onSubmit={handleFormSubmit} className="mt-4 space-y-3.5 text-xs">
+            <form onSubmit={handleFormSubmit} className="mt-5 space-y-4 text-xs">
               
               <div className="space-y-1.5">
                 <label className="font-black text-xs text-black block">Email Address</label>
@@ -215,8 +165,12 @@ export const LoginPage = () => {
                   <input
                     type="email"
                     required
+                    placeholder="e.g. admin@gmail.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errorMessage) setErrorMessage('');
+                    }}
                     className="w-full pl-10 pr-3.5 py-2.5 bg-cream-50 rounded-xl border border-cream-300 focus:border-burnt-500 focus:bg-white text-black outline-none text-xs font-bold transition-all focus:ring-2 focus:ring-burnt-500/20"
                   />
                 </div>
@@ -234,8 +188,12 @@ export const LoginPage = () => {
                   <input
                     type="password"
                     required
+                    placeholder="Enter password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (errorMessage) setErrorMessage('');
+                    }}
                     className="w-full pl-10 pr-3.5 py-2.5 bg-cream-50 rounded-xl border border-cream-300 focus:border-burnt-500 focus:bg-white text-black outline-none text-xs font-bold transition-all focus:ring-2 focus:ring-burnt-500/20"
                   />
                 </div>
@@ -259,7 +217,7 @@ export const LoginPage = () => {
                 className="w-full py-3.5 px-4 rounded-xl bg-burnt-500 hover:bg-burnt-600 text-white font-black text-sm shadow-lg shadow-burnt-600/30 transition-all flex items-center justify-center gap-2 transform active:scale-98 cursor-pointer"
                 style={{ backgroundColor: '#E86526', color: '#FFFFFF' }}
               >
-                <span className="text-white font-black">Sign In as {selectedRole}</span>
+                <span className="text-white font-black">Sign In</span>
                 <ArrowRight className="w-4 h-4 text-white" />
               </button>
 

@@ -1,34 +1,46 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, UserCheck, Lock, Mail, Sparkles, Layers } from 'lucide-react';
+import { X, Lock, Mail, Sparkles, Layers, AlertCircle } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const LoginModal = ({ isOpen, onClose }) => {
-  const { login, currentUser } = useApp();
+  const { login } = useApp();
 
-  const [role, setRole] = useState(currentUser.role || 'Admin');
   const [email, setEmail] = useState('');
-  const [name, setName] = useState(currentUser.name || (role === 'Admin' ? 'Administrator' : 'Store Staff'));
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   if (!isOpen) return null;
 
-  const handleRolePreset = (selectedRole) => {
-    setRole(selectedRole);
-    setName(selectedRole === 'Admin' ? 'Administrator' : 'Store Staff');
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isAdm = role === 'Admin';
-    login({
-      name: name.trim() || (isAdm ? 'Administrator' : 'Store Staff'),
-      email: email.trim() || (isAdm ? 'admin@apparel360.com' : 'staff@apparel360.com'),
-      role,
-      code: isAdm ? 'ADM-001' : 'STAFF-102',
-      company: 'Apparel360',
-      isLoggedIn: true
-    });
-    onClose();
+    setErrorMessage('');
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    if (cleanEmail === 'admin@gmail.com' && cleanPassword === 'admin123') {
+      login({
+        name: 'Administrator',
+        email: 'admin@gmail.com',
+        role: 'Admin',
+        code: 'ADM-001',
+        company: 'Apparel360',
+        isLoggedIn: true
+      });
+      onClose();
+    } else if (cleanEmail === 'staff@gmail.com' && cleanPassword === 'staff123') {
+      login({
+        name: 'Store Staff',
+        email: 'staff@gmail.com',
+        role: 'Staff',
+        code: 'STAFF-102',
+        company: 'Apparel360',
+        isLoggedIn: true
+      });
+      onClose();
+    } else {
+      setErrorMessage('Invalid credentials. Use admin@gmail.com/admin123 or staff@gmail.com/staff123');
+    }
   };
 
   return (
@@ -64,73 +76,15 @@ export const LoginModal = ({ isOpen, onClose }) => {
         {/* Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs sm:text-sm bg-white">
           
-          {/* Role selector buttons */}
-          <div className="space-y-1.5">
-            <label className="font-black text-xs uppercase tracking-wider text-black block">Choose Role Profile</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => handleRolePreset('Admin')}
-                className={`p-3.5 rounded-2xl border-2 text-left flex flex-col justify-between transition-all cursor-pointer ${
-                  role === 'Admin'
-                    ? 'border-burnt-500 bg-burnt-50 ring-2 ring-burnt-500/30 shadow-sm'
-                    : 'border-cream-300 hover:border-cream-400 bg-white'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="p-2 rounded-xl flex items-center justify-center shadow-xs"
-                    style={{
-                      backgroundColor: role === 'Admin' ? '#E86526' : '#FFF0EA',
-                      color: role === 'Admin' ? '#FFFFFF' : '#CB4E14'
-                    }}
-                  >
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <span className="font-black text-sm text-black">Admin</span>
-                </div>
-                <p className="text-xs text-chocolate-800 font-semibold mt-2 leading-tight">Full access (Catalog, Masters, Suppliers)</p>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleRolePreset('Staff')}
-                className={`p-3.5 rounded-2xl border-2 text-left flex flex-col justify-between transition-all cursor-pointer ${
-                  role === 'Staff'
-                    ? 'border-chocolate-700 bg-chocolate-50 ring-2 ring-chocolate-700/30 shadow-sm'
-                    : 'border-cream-300 hover:border-cream-400 bg-white'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="p-2 rounded-xl flex items-center justify-center shadow-xs"
-                    style={{
-                      backgroundColor: role === 'Staff' ? '#2A170C' : '#F2E8E1',
-                      color: role === 'Staff' ? '#FFFFFF' : '#2A170C'
-                    }}
-                  >
-                    <UserCheck className="w-4 h-4" />
-                  </div>
-                  <span className="font-black text-sm text-black">Staff</span>
-                </div>
-                <p className="text-xs text-chocolate-800 font-semibold mt-2 leading-tight">POS Sales & Purchase Entry</p>
-              </button>
+          {errorMessage && (
+            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{errorMessage}</span>
             </div>
-          </div>
+          )}
 
-          {/* Name & Email */}
+          {/* Email & Password */}
           <div className="space-y-3 pt-1">
-            <div>
-              <label className="font-black text-xs text-black block mb-1">User Display Name</label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-cream-300 focus:border-burnt-500 focus:ring-2 focus:ring-burnt-500/20 outline-none font-bold bg-cream-50 focus:bg-white text-black text-sm transition-all"
-              />
-            </div>
-
             <div>
               <label className="font-black text-xs text-black block mb-1">Email Address</label>
               <div className="relative">
@@ -138,21 +92,30 @@ export const LoginModal = ({ isOpen, onClose }) => {
                 <input
                   type="email"
                   required
+                  placeholder="e.g. admin@gmail.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errorMessage) setErrorMessage('');
+                  }}
                   className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-cream-300 focus:border-burnt-500 focus:ring-2 focus:ring-burnt-500/20 outline-none font-bold bg-cream-50 focus:bg-white text-black text-sm transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="font-black text-xs text-black block mb-1">Password / PIN</label>
+              <label className="font-black text-xs text-black block mb-1">Password</label>
               <div className="relative">
                 <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: '#845736' }} />
                 <input
                   type="password"
+                  required
+                  placeholder="Enter password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errorMessage) setErrorMessage('');
+                  }}
                   className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-cream-300 focus:border-burnt-500 focus:ring-2 focus:ring-burnt-500/20 outline-none font-bold bg-cream-50 focus:bg-white text-black text-sm transition-all"
                 />
               </div>
@@ -167,7 +130,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
               style={{ backgroundColor: '#E86526', color: '#FFFFFF' }}
             >
               <Sparkles className="w-4 h-4 text-white" />
-              <span className="text-white font-black text-sm tracking-wide">Sign In as {role}</span>
+              <span className="text-white font-black text-sm tracking-wide">Sign In</span>
             </button>
           </div>
 
