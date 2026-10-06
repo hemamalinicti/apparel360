@@ -53,12 +53,11 @@ export const LoginModal = ({ isOpen, onClose }) => {
         {/* Header */}
         <div className="px-5 py-4 bg-white border-b border-cream-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div
-              className="w-10 h-10 rounded-xl text-white flex items-center justify-center font-bold shadow-md shrink-0"
-              style={{ backgroundColor: '#E86526', color: '#FFFFFF' }}
-            >
-              <Layers className="w-5 h-5 text-white" />
-            </div>
+            <img
+              src="/apparel360-logo-dark.jpg"
+              alt="Apparel360 Logo"
+              className="w-10 h-10 rounded-xl object-cover shadow-md shrink-0 border border-chocolate-800"
+            />
             <div>
               <h2 className="text-base font-black text-black tracking-tight">System Authentication</h2>
               <p className="text-xs text-chocolate-800 font-bold">Apparel360 ERP</p>

@@ -72,12 +72,11 @@ export const Navbar = ({ onOpenLogin, onOpenAddProduct, onOpenStockIn, onOpenPOS
             {isMobileMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
           </button>
 
-          <div
-            className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl text-white shadow-md shrink-0"
-            style={{ backgroundColor: '#E86526' }}
-          >
-            <Layers className="w-5 h-5 text-white" />
-          </div>
+          <img
+            src="/apparel360-logo-dark.jpg"
+            alt="Apparel360 Logo"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover shadow-md shrink-0 border border-burnt-500/40"
+          />
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <span className="font-black text-base sm:text-lg tracking-tight text-white truncate">

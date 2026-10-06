@@ -62,12 +62,11 @@ export const LoginPage = () => {
           <div className="space-y-6">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div
-                className="flex items-center justify-center w-11 h-11 rounded-2xl text-white shadow-md"
-                style={{ backgroundColor: '#E86526', color: '#FFFFFF' }}
-              >
-                <Layers className="w-6 h-6 text-white" />
-              </div>
+              <img
+                src="/apparel360-logo-dark.jpg"
+                alt="Apparel360 Logo"
+                className="w-12 h-12 rounded-2xl object-cover shadow-lg border border-chocolate-800"
+              />
               <div>
                 <h1 className="text-xl font-black tracking-tight leading-none text-black">
                   Apparel360
@@ -122,12 +121,11 @@ export const LoginPage = () => {
           <div>
             {/* Mobile-only Brand Header */}
             <div className="flex items-center gap-2.5 pb-4 mb-3 border-b border-cream-200 lg:hidden">
-              <div
-                className="flex items-center justify-center w-9 h-9 rounded-xl text-white shadow-sm shrink-0"
-                style={{ backgroundColor: '#E86526' }}
-              >
-                <Layers className="w-5 h-5 text-white" />
-              </div>
+              <img
+                src="/apparel360-logo-dark.jpg"
+                alt="Apparel360 Logo"
+                className="w-10 h-10 rounded-xl object-cover shadow-sm shrink-0 border border-chocolate-800"
+              />
               <div>
                 <h1 className="text-lg font-black tracking-tight leading-none text-black">
                   Apparel360

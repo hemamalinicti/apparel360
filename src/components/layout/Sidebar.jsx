@@ -89,9 +89,11 @@ export const Sidebar = () => {
           {/* Mobile Drawer Header */}
           <div className="flex items-center justify-between pb-3 mb-3 border-b border-chocolate-800 md:hidden">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-burnt-600 flex items-center justify-center text-white">
-                <Layers className="w-4 h-4 text-white" />
-              </div>
+              <img
+                src="/apparel360-logo-dark.jpg"
+                alt="Apparel360 Logo"
+                className="w-8 h-8 rounded-lg object-cover shadow-sm border border-chocolate-800"
+              />
               <span className="font-extrabold text-sm text-white">Apparel360</span>
             </div>
             <button
