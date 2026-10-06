@@ -135,19 +135,29 @@ export const SalesPOSView = ({ preselectedProduct, onClearPreselected, onOpenRec
   const handleCheckout = (e) => {
     e.preventDefault();
     if (cart.length === 0) {
-      alert('Your cart is empty. Add garments to complete sale.');
+      alert('Your cart is empty. Please add garment items to complete sale.');
+      return;
+    }
+
+    if (!customerName.trim()) {
+      alert('Please enter Customer Name to proceed with checkout.');
+      return;
+    }
+
+    if (!customerPhone.trim()) {
+      alert('Please enter Customer Phone Number to proceed with checkout.');
       return;
     }
 
     const salePayload = {
-      customerName: customerName.trim() || 'Walk-in Customer',
+      customerName: customerName.trim(),
       customerPhone: customerPhone.trim(),
       items: cart,
       subtotal,
       discountAmount,
       taxAmount,
       grandTotal,
-      paymentMethod,
+      paymentMethod: paymentMethod || 'UPI / QR',
       notes: saleNotes
     };
 
@@ -398,23 +408,29 @@ export const SalesPOSView = ({ preselectedProduct, onClearPreselected, onOpenRec
               {/* Customer Name & Phone */}
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-[10px] font-bold text-chocolate-500 uppercase">Customer Name</label>
+                  <label className="text-[10px] font-bold text-chocolate-500 uppercase">
+                    Customer Name <span className="text-rose-600">*</span>
+                  </label>
                   <input
                     type="text"
-                    placeholder="Walk-in Customer"
+                    required
+                    placeholder="Enter Customer Name"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    className="w-full mt-0.5 px-2.5 py-1.5 bg-cream-50 rounded-lg border border-cream-200 outline-none text-xs text-chocolate-900"
+                    className="w-full mt-0.5 px-2.5 py-1.5 bg-cream-50 rounded-lg border border-cream-200 focus:border-burnt-500 focus:bg-white outline-none text-xs text-chocolate-900"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-chocolate-500 uppercase">Phone Number</label>
+                  <label className="text-[10px] font-bold text-chocolate-500 uppercase">
+                    Phone Number <span className="text-rose-600">*</span>
+                  </label>
                   <input
                     type="tel"
-                    placeholder="+91 98450..."
+                    required
+                    placeholder="10-digit mobile number"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    className="w-full mt-0.5 px-2.5 py-1.5 bg-cream-50 rounded-lg border border-cream-200 outline-none text-xs text-chocolate-900"
+                    className="w-full mt-0.5 px-2.5 py-1.5 bg-cream-50 rounded-lg border border-cream-200 focus:border-burnt-500 focus:bg-white outline-none text-xs text-chocolate-900"
                   />
                 </div>
               </div>
@@ -434,9 +450,12 @@ export const SalesPOSView = ({ preselectedProduct, onClearPreselected, onOpenRec
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-bold text-chocolate-500 uppercase">Payment Mode</label>
+                  <label className="text-[10px] font-bold text-chocolate-500 uppercase">
+                    Payment Mode <span className="text-rose-600">*</span>
+                  </label>
                   <select
                     value={paymentMethod}
+                    required
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     className="w-full mt-0.5 px-2.5 py-1.5 bg-cream-50 rounded-lg border border-cream-200 outline-none text-xs font-semibold text-chocolate-900"
                   >
@@ -471,36 +490,48 @@ export const SalesPOSView = ({ preselectedProduct, onClearPreselected, onOpenRec
               </div>
 
               {/* Checkout Button */}
-              <button
-                type="submit"
-                disabled={cart.length === 0}
-                className={`w-full py-3 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 ${
-                  cart.length === 0
-                    ? 'cursor-not-allowed border'
-                    : 'shadow-xl transform active:scale-95 cursor-pointer text-white'
-                }`}
-                style={
-                  cart.length === 0
-                    ? {
-                        backgroundColor: '#FAF5EB',
-                        borderColor: '#DEC5A6',
-                        color: '#643F25',
-                        boxShadow: 'none'
-                      }
-                    : {
-                        backgroundColor: '#E86526',
-                        backgroundImage: 'linear-gradient(135deg, #CB4E14, #E86526)',
-                        border: '1px solid #A73B0C',
-                        boxShadow: '0 6px 18px rgba(203, 78, 20, 0.45)',
-                        color: '#FFFFFF'
-                      }
+              {(() => {
+                const isReady = cart.length > 0 && customerName.trim().length > 0 && customerPhone.trim().length > 0;
+                let buttonLabel = `Complete Sale (₹${grandTotal.toLocaleString()})`;
+                if (cart.length === 0) {
+                  buttonLabel = 'Select Garment Items to Checkout';
+                } else if (!customerName.trim()) {
+                  buttonLabel = 'Enter Customer Name to Checkout';
+                } else if (!customerPhone.trim()) {
+                  buttonLabel = 'Enter Phone Number to Checkout';
                 }
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                <span>
-                  {cart.length === 0 ? 'Select Garment Items to Checkout' : `Complete Sale (₹${grandTotal.toLocaleString()})`}
-                </span>
-              </button>
+
+                return (
+                  <button
+                    type="submit"
+                    disabled={!isReady}
+                    className={`w-full py-3 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 ${
+                      !isReady
+                        ? 'cursor-not-allowed border opacity-80'
+                        : 'shadow-xl transform active:scale-95 cursor-pointer text-white'
+                    }`}
+                    style={
+                      !isReady
+                        ? {
+                            backgroundColor: '#FAF5EB',
+                            borderColor: '#DEC5A6',
+                            color: '#643F25',
+                            boxShadow: 'none'
+                          }
+                        : {
+                            backgroundColor: '#E86526',
+                            backgroundImage: 'linear-gradient(135deg, #CB4E14, #E86526)',
+                            border: '1px solid #A73B0C',
+                            boxShadow: '0 6px 18px rgba(203, 78, 20, 0.45)',
+                            color: '#FFFFFF'
+                          }
+                    }
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>{buttonLabel}</span>
+                  </button>
+                );
+              })()}
 
             </form>
 
