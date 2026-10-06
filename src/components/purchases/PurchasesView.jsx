@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Receipt, Search, Download, CheckCircle2, Clock, Truck, Layers } from 'lucide-react';
+import { Plus, Receipt, Search, CheckCircle2, Clock, Truck, Layers } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const PurchasesView = ({ onOpenNewPurchase }) => {
@@ -14,29 +14,6 @@ export const PurchasesView = ({ onOpenNewPurchase }) => {
       (p.notes && p.notes.toLowerCase().includes(search.toLowerCase()));
     return matchSearch;
   });
-
-  const exportPurchasesCSV = () => {
-    const headers = ['PO Number', 'Invoice Number', 'Supplier', 'Date', 'Total Amount', 'Item Count', 'Payment Status', 'Notes'];
-    const rows = filteredPurchases.map((p) => [
-      `"${p.id}"`,
-      `"${p.invoiceNumber}"`,
-      `"${p.supplierName}"`,
-      p.date,
-      p.totalAmount,
-      p.itemCount,
-      `"${p.paymentStatus}"`,
-      `"${p.notes || ''}"`
-    ]);
-
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `Purchase_Orders_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
 
   return (
     <div className="space-y-5 animate-in fade-in duration-300">
@@ -66,15 +43,6 @@ export const PurchasesView = ({ onOpenNewPurchase }) => {
         </div>
 
         <div className="flex items-center gap-2.5">
-          <button
-            onClick={exportPurchasesCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl shadow-xs transition-colors border hover:bg-white"
-            style={{ backgroundColor: '#FAF5EB', borderColor: '#CB4E14', color: '#000000' }}
-          >
-            <Download className="w-3.5 h-3.5 text-black" />
-            <span className="text-black">Export CSV</span>
-          </button>
-
           <button
             onClick={() => onOpenNewPurchase()}
             className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl text-white shadow-md shadow-black/20 transition-all transform active:scale-95"
