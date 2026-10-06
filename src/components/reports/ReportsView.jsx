@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StockBadge, SizeBadge, ColorBadge, CategoryBadge } from '../common/Badge';
-import { FinancialReportCharts } from './FinancialReportCharts';
 
 export const ReportsView = () => {
   const { products, categories, sales, purchases, metrics } = useApp();
@@ -180,9 +179,6 @@ export const ReportsView = () => {
           </div>
         </div>
       </div>
-
-      {/* Timeframe Financial & Stock Reporting Charts */}
-      <FinancialReportCharts />
 
       {/* Report Selection Tabs */}
       <div className="flex flex-wrap gap-2 border-b border-cream-300 pb-2">
