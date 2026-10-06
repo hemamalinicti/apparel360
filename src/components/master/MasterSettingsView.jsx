@@ -6,11 +6,7 @@ import {
   Maximize2,
   Plus,
   Trash2,
-  RotateCcw,
-  Download,
-  Upload,
-  CheckCircle2,
-  HardDrive
+  CheckCircle2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { getSizeStyle } from '../common/Badge';
@@ -27,9 +23,6 @@ export const MasterSettingsView = () => {
     addColor,
     deleteColor,
     products,
-    resetToDemoData,
-    exportDatabase,
-    importDatabase,
     currentUser
   } = useApp();
 
@@ -81,21 +74,6 @@ export const MasterSettingsView = () => {
     setNewColorName('');
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const parsed = JSON.parse(event.target?.result);
-        importDatabase(parsed);
-      } catch (err) {
-        alert('Invalid JSON file format.');
-      }
-    };
-    reader.readAsText(file);
-  };
-
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       
@@ -119,7 +97,7 @@ export const MasterSettingsView = () => {
             </span>
           </div>
           <p className="text-xs font-bold text-black/90 mt-0.5">
-            Manage garment categories, standardized sizing charts, color swatches, and localStorage data backups.
+            Manage garment categories, standardized sizing charts, and color swatches.
           </p>
         </div>
       </div>
@@ -163,19 +141,6 @@ export const MasterSettingsView = () => {
         >
           <Palette className="w-4 h-4" />
           <span>Color Swatches ({colors.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('data')}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-xs border"
-          style={
-            activeTab === 'data'
-              ? { backgroundColor: '#1B0E06', color: '#FFFFFF', borderColor: '#1B0E06' }
-              : { backgroundColor: '#FAF5EB', color: '#1B0E06', borderColor: '#DEC5A6' }
-          }
-        >
-          <HardDrive className="w-4 h-4" />
-          <span>Data Backup & Storage</span>
         </button>
       </div>
 
@@ -443,79 +408,6 @@ export const MasterSettingsView = () => {
                 </div>
               ))}
             </div>
-          </div>
-
-        </div>
-      )}
-
-      {/* Tab 4: Data Management & Backup */}
-      {activeTab === 'data' && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          
-          {/* Export Backup Card */}
-          <div className="bg-white rounded-2xl p-6 border border-cream-300 shadow-2xs space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-cream-200 text-chocolate-950 flex items-center justify-center font-bold">
-              <Download className="w-5 h-5 text-burnt-600" />
-            </div>
-            <h3 className="text-sm font-black text-black">Export System Database</h3>
-            <p className="text-xs font-medium text-chocolate-800 leading-relaxed">
-              Download a complete JSON snapshot containing all garments, categories, suppliers, sales and movement logs.
-            </p>
-            <button
-              onClick={exportDatabase}
-              className="w-full py-2.5 rounded-xl text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
-              style={{ backgroundColor: '#1B0E06', border: '1px solid #1B0E06' }}
-            >
-              <Download className="w-4 h-4 text-white" />
-              <span className="text-white">Download JSON Backup</span>
-            </button>
-          </div>
-
-          {/* Import Backup Card */}
-          <div className="bg-white rounded-2xl p-6 border border-cream-300 shadow-2xs space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-burnt-100 text-burnt-800 flex items-center justify-center font-bold border border-burnt-300">
-              <Upload className="w-5 h-5 text-burnt-700" />
-            </div>
-            <h3 className="text-sm font-black text-black">Restore / Import Data</h3>
-            <p className="text-xs font-medium text-chocolate-800 leading-relaxed">
-              Upload a previously exported JSON backup file to restore garment inventory data instantly into localStorage.
-            </p>
-            <label
-              className="w-full py-2.5 rounded-xl text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer text-center"
-              style={{ backgroundColor: '#CB4E14', border: '1px solid #A73B0C' }}
-            >
-              <Upload className="w-4 h-4 text-white" />
-              <span className="text-white">Choose JSON File</span>
-              <input
-                type="file"
-                accept=".json"
-                onChange={handleFileUpload}
-                className="hidden"
-              />
-            </label>
-          </div>
-
-          {/* Factory Reset Demo Card */}
-          <div className="bg-white rounded-2xl p-6 border border-cream-300 shadow-2xs space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold border border-rose-300">
-              <RotateCcw className="w-5 h-5 text-rose-700" />
-            </div>
-            <h3 className="text-sm font-black text-black">Reset Demo Dataset</h3>
-            <p className="text-xs font-medium text-chocolate-800 leading-relaxed">
-              Reset all inventory, sales, purchases and suppliers back to the initial sample dataset.
-            </p>
-            <button
-              onClick={() => {
-                if (window.confirm('Are you sure you want to reset all data to default demo state? Any custom entries will be replaced.')) {
-                  resetToDemoData();
-                }
-              }}
-              className="w-full py-2.5 rounded-xl font-bold text-xs shadow-2xs transition-all flex items-center justify-center gap-2 border hover:bg-white"
-              style={{ backgroundColor: '#FAF5EB', borderColor: '#CB4E14', color: '#000000' }}
-            >
-              <RotateCcw className="w-4 h-4 text-black" />
-              <span className="text-black">Reset to Sample Data</span>
-            </button>
           </div>
 
         </div>
