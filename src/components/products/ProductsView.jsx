@@ -16,7 +16,7 @@ import {
   SlidersHorizontal
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-import { StockBadge, SizeBadge, ColorBadge, CategoryBadge, GarmentImage } from '../common/Badge';
+import { StockBadge, CategoryBadge, GarmentImage } from '../common/Badge';
 
 export const ProductsView = ({
   onOpenAddProduct,
@@ -306,11 +306,8 @@ export const ProductsView = ({
                 <tr>
                   <th className="py-3.5 px-4">Garment & SKU</th>
                   <th className="py-3.5 px-3">Category</th>
-                  <th className="py-3.5 px-3">Size & Color</th>
-                  <th className="py-3.5 px-3 text-right">Cost (₹)</th>
-                  <th className="py-3.5 px-3 text-right">Selling (₹)</th>
+                  <th className="py-3.5 px-3 text-right">Selling Price (₹)</th>
                   <th className="py-3.5 px-3 text-center">Stock Level</th>
-                  <th className="py-3.5 px-3">Supplier</th>
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -344,27 +341,12 @@ export const ProductsView = ({
                       <CategoryBadge category={prod.category} />
                     </td>
 
-                    <td className="py-3 px-3">
-                      <div className="flex flex-col gap-1 items-start">
-                        <SizeBadge size={prod.size} />
-                        <ColorBadge color={prod.color} hex={prod.colorHex} />
-                      </div>
-                    </td>
-
-                    <td className="py-3 px-3 text-right font-medium text-chocolate-700">
-                      ₹{prod.costPrice}
-                    </td>
-
                     <td className="py-3 px-3 text-right font-bold text-burnt-600">
                       ₹{prod.sellingPrice}
                     </td>
 
                     <td className="py-3 px-3 text-center">
                       <StockBadge stock={prod.stock} minStock={prod.minStock} />
-                    </td>
-
-                    <td className="py-3 px-3 text-chocolate-700 truncate max-w-[140px]">
-                      {prod.supplierName || 'N/A'}
                     </td>
 
                     <td
@@ -451,9 +433,6 @@ export const ProductsView = ({
                   <div className="absolute top-2.5 right-2.5">
                     <StockBadge stock={prod.stock} minStock={prod.minStock} />
                   </div>
-                  <div className="absolute top-2.5 left-2.5">
-                    <SizeBadge size={prod.size} />
-                  </div>
                 </div>
 
                 <div className="p-4 space-y-2.5">
@@ -467,7 +446,6 @@ export const ProductsView = ({
                   </div>
 
                   <div className="flex items-center justify-between text-xs">
-                    <ColorBadge color={prod.color} hex={prod.colorHex} />
                     <CategoryBadge category={prod.category} />
                   </div>
 
@@ -475,10 +453,6 @@ export const ProductsView = ({
                     <div>
                       <span className="text-[10px] uppercase font-bold text-chocolate-400 block">Retail Price</span>
                       <span className="text-base font-extrabold text-burnt-600">₹{prod.sellingPrice}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-[10px] uppercase font-bold text-chocolate-400 block">Cost</span>
-                      <span className="text-xs font-semibold text-chocolate-600">₹{prod.costPrice}</span>
                     </div>
                   </div>
                 </div>
