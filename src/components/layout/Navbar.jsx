@@ -240,12 +240,12 @@ export const Navbar = ({ onOpenLogin, onOpenAddProduct, onOpenStockIn, onOpenPOS
                 <div className="pt-2.5 border-t border-chocolate-800 flex justify-between items-center text-xs">
                   <button
                     onClick={() => {
-                      setActiveTab('stock');
+                      setActiveTab('reports');
                       setShowNotifications(false);
                     }}
                     className="text-burnt-400 font-bold hover:underline"
                   >
-                    View Stock Ledger &rarr;
+                    View Reorder Reports &rarr;
                   </button>
                   <button
                     onClick={() => {

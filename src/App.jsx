@@ -7,10 +7,8 @@ import { ToastContainer } from './components/common/Toast';
 // Views
 import { DashboardView } from './components/dashboard/DashboardView';
 import { ProductsView } from './components/products/ProductsView';
-import { StockManagementView } from './components/stock/StockManagementView';
 import { SalesPOSView } from './components/sales/SalesPOSView';
 import { PurchasesView } from './components/purchases/PurchasesView';
-import { SuppliersView } from './components/suppliers/SuppliersView';
 import { MasterSettingsView } from './components/master/MasterSettingsView';
 import { ReportsView } from './components/reports/ReportsView';
 import { LoginPage } from './components/auth/LoginPage';
@@ -145,13 +143,6 @@ export function App() {
             />
           )}
 
-          {activeTab === 'stock' && (
-            <StockManagementView
-              onOpenAdjustStock={handleOpenAdjustStock}
-              onOpenPurchaseOrder={() => handleOpenStockIn()}
-            />
-          )}
-
           {activeTab === 'sales' && (
             <SalesPOSView
               preselectedProduct={posPreselectedProduct}
@@ -163,14 +154,6 @@ export function App() {
           {activeTab === 'purchases' && (
             <PurchasesView
               onOpenNewPurchase={(initialProdId) => handleOpenStockIn(initialProdId)}
-            />
-          )}
-
-          {activeTab === 'suppliers' && (
-            <SuppliersView
-              onOpenAddSupplier={handleOpenAddSupplier}
-              onOpenEditSupplier={handleOpenEditSupplier}
-              onOpenNewPurchaseForSupplier={(supId) => handleOpenStockIn()}
             />
           )}
 

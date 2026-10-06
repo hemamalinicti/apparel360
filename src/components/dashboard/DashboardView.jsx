@@ -128,13 +128,13 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
 
         {/* Card 2: Total Stock Units - Vibrant Burnt Orange */}
         <div
-          onClick={() => setActiveTab('stock')}
+          onClick={() => setActiveTab('products')}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              setActiveTab('stock');
+              setActiveTab('products');
             }
           }}
           className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] text-white border flex flex-col justify-between cursor-pointer group select-none"
