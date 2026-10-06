@@ -96,7 +96,16 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
         
         {/* Card 1: Total Garments - Deep Chocolate Brown */}
         <div
-          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all transform hover:-translate-y-0.5 hover:shadow-xl text-white border flex flex-col justify-between"
+          onClick={() => setActiveTab('products')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setActiveTab('products');
+            }
+          }}
+          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] text-white border flex flex-col justify-between cursor-pointer group select-none"
           style={{
             background: 'linear-gradient(135deg, #2A170C 0%, #3A2213 100%)',
             borderColor: '#4D2F1A',
@@ -108,7 +117,7 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
               Total Garments
             </span>
             <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/20 shrink-0"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/20 shrink-0 group-hover:scale-105 transition-transform"
               style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
             >
               <Shirt className="w-4 h-4 sm:w-5 sm:h-5 text-burnt-400" />
@@ -120,19 +129,25 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
             </div>
             <div className="mt-1 flex items-center justify-between text-[10px] sm:text-xs">
               <span className="text-white/80 font-medium truncate">{categories.length} Categories</span>
-              <button
-                onClick={() => setActiveTab('products')}
-                className="text-burnt-300 font-bold hover:underline hover:text-white shrink-0 ml-1"
-              >
+              <span className="text-burnt-300 font-bold group-hover:text-white group-hover:translate-x-1 transition-all shrink-0 ml-1">
                 &rarr;
-              </button>
+              </span>
             </div>
           </div>
         </div>
 
         {/* Card 2: Total Stock Units - Vibrant Burnt Orange */}
         <div
-          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all transform hover:-translate-y-0.5 hover:shadow-xl text-white border flex flex-col justify-between"
+          onClick={() => setActiveTab('stock')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setActiveTab('stock');
+            }
+          }}
+          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] text-white border flex flex-col justify-between cursor-pointer group select-none"
           style={{
             background: 'linear-gradient(135deg, #CB4E14 0%, #E86526 100%)',
             borderColor: '#A73B0C',
@@ -144,7 +159,7 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
               Total Stock Units
             </span>
             <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/25 shrink-0"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/25 shrink-0 group-hover:scale-105 transition-transform"
               style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}
             >
               <Package className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -158,19 +173,25 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
               <span className="text-white/90 font-medium truncate">
                 ₹{metrics.totalInventoryValuation.toLocaleString()}
               </span>
-              <button
-                onClick={() => setActiveTab('stock')}
-                className="text-white font-bold hover:underline shrink-0 ml-1"
-              >
+              <span className="text-white font-bold group-hover:translate-x-1 transition-transform shrink-0 ml-1">
                 &rarr;
-              </button>
+              </span>
             </div>
           </div>
         </div>
 
         {/* Card 3: Total Sales Revenue - Warm Rich Cocoa / Leather */}
         <div
-          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all transform hover:-translate-y-0.5 hover:shadow-xl text-white border flex flex-col justify-between"
+          onClick={() => setActiveTab('sales')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setActiveTab('sales');
+            }
+          }}
+          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] text-white border flex flex-col justify-between cursor-pointer group select-none"
           style={{
             background: 'linear-gradient(135deg, #643F25 0%, #845736 100%)',
             borderColor: '#4D2F1A',
@@ -182,7 +203,7 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
               Total Sales
             </span>
             <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/20 shrink-0"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/20 shrink-0 group-hover:scale-105 transition-transform"
               style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
             >
               <IndianRupee className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -194,19 +215,25 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
             </div>
             <div className="mt-1 flex items-center justify-between text-[10px] sm:text-xs">
               <span className="text-white/85 font-medium truncate">{sales.length} orders</span>
-              <button
-                onClick={() => setActiveTab('sales')}
-                className="text-white font-bold hover:underline shrink-0 ml-1"
-              >
+              <span className="text-white font-bold group-hover:translate-x-1 transition-transform shrink-0 ml-1">
                 &rarr;
-              </button>
+              </span>
             </div>
           </div>
         </div>
 
         {/* Card 4: Low Stock Alerts - Deep Rust Terracotta */}
         <div
-          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all transform hover:-translate-y-0.5 hover:shadow-xl text-white border flex flex-col justify-between"
+          onClick={() => setActiveTab('reports')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setActiveTab('reports');
+            }
+          }}
+          className="rounded-2xl p-3.5 sm:p-5 shadow-lg shadow-black/15 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] text-white border flex flex-col justify-between cursor-pointer group select-none"
           style={{
             background: 'linear-gradient(135deg, #862F0D 0%, #A73B0C 100%)',
             borderColor: '#6C280E',
@@ -218,7 +245,7 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
               Low Stock Alerts
             </span>
             <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/25 shrink-0"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-white shadow-sm border border-white/25 shrink-0 group-hover:scale-105 transition-transform"
               style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
             >
               <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -233,12 +260,9 @@ export const DashboardView = ({ onOpenAddProduct, onOpenStockIn, onOpenPOS }) =>
             </div>
             <div className="mt-1 flex items-center justify-between text-[10px] sm:text-xs">
               <span className="text-white/90 font-medium truncate">Needs reorder</span>
-              <button
-                onClick={() => setActiveTab('reports')}
-                className="text-white font-bold hover:underline shrink-0 ml-1"
-              >
+              <span className="text-white font-bold group-hover:translate-x-1 transition-transform shrink-0 ml-1">
                 &rarr;
-              </button>
+              </span>
             </div>
           </div>
         </div>
