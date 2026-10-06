@@ -8,9 +8,6 @@ import {
   Users,
   Sliders,
   BarChart3,
-  Database,
-  ShieldAlert,
-  HardDrive,
   LogOut,
   X,
   Layers
@@ -189,28 +186,6 @@ export const Sidebar = () => {
               })}
             </nav>
           </div>
-
-          {/* Storage & Role info card */}
-          <div
-            className="rounded-2xl p-3.5 space-y-2 text-white border"
-            style={{ backgroundColor: '#2A170C', borderColor: '#3A2213', color: '#FFFFFF' }}
-          >
-            <div className="flex items-center gap-2 text-xs font-bold text-white">
-              <HardDrive className="w-4 h-4 text-burnt-400" />
-              <span className="text-white">Local Storage Active</span>
-            </div>
-            <p className="text-[11px] text-white/80 leading-relaxed">
-              All inventory changes, purchases & sales are automatically saved to your browser storage.
-            </p>
-            <div
-              className="pt-1.5 flex items-center justify-between text-[10px] text-white font-bold border-t"
-              style={{ borderTopColor: '#3A2213' }}
-            >
-              <span>Role: {currentUser.role}</span>
-              <span>{products.length} Garments Tracked</span>
-            </div>
-          </div>
-
         </div>
 
         {/* Footer Info & Logout */}
